@@ -289,7 +289,7 @@ export default function Kalaam() {
         ))}
       </div>
 
-      {/* Floating Player */}
+      {/* Floating Player it is */}
       <AnimatePresence>
         {currentAudio && (
 
