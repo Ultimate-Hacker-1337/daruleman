@@ -83,7 +83,7 @@ export default function Header() {
               src={logoPath}
               alt="دار الایمان والتقویٰ لوگو"
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", borderRadius: "50%" }}
               priority
             />
           </motion.div>

@@ -13,8 +13,8 @@ module.exports = {
     extend: {
       // Custom fonts defined previously
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
-        headline: ['PT Sans', 'sans-serif'],
+body: ['"Noto Naskh Arabic"', 'sans-serif'],
+        headline: ['"Noto Naskh Arabic"', 'serif'],
         code: ['monospace'],
       },
       

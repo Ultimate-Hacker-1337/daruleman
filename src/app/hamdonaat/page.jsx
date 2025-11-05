@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { Play, Pause, Save, Download, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ⚠️ Static asset import replaced with direct path from the /public folder
-const defaultAudioPath = "/assets/audio2.mp3"; 
+// ⚠️ Static asset path
+const defaultAudioPath = "/assets/audio2.mp3";
 
 export default function Kalaam() {
   const [activeLang, setActiveLang] = useState("urdu");
@@ -17,15 +17,13 @@ export default function Kalaam() {
 
   const audioRef = useRef(null);
 
+  // Mapped brand classes for styling consistency
+  const BRAND_ACCENT = 'bg-brand-accent';
+  const BRAND_ACCENT_TEXT = 'text-brand-accent';
+  const BRAND_DARK_TEXT = 'text-brand-primary-text';
+
   const languages = [
-    "urdu",
-    "english",
-    "pashto",
-    "arabic",
-    "farsi",
-    "turkish",
-    "sindhi",
-    "punjabi",
+    "urdu", "english", "pashto", "arabic", "farsi", "turkish", "sindhi", "punjabi",
   ];
 
   // Data Array (Using public paths)
@@ -84,7 +82,7 @@ export default function Kalaam() {
 
   // Filter & Sort
   const filtered = bayanat
-    .filter((b) => b.lang === activeLang) // ⬅️ The language filter was missing in your provided array data logic
+    .filter((b) => b.lang === activeLang)
     .filter(
       (b) =>
         b.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -129,24 +127,19 @@ export default function Kalaam() {
   // Logic to update progress bar and sync play/pause states
   useEffect(() => {
     if (!audioRef.current) return;
-    const updateProgress = () => {
-      const { currentTime, duration } = audioRef.current;
-      setProgress((currentTime / duration) * 100 || 0);
-    };
-    
     const handlePlayEvent = () => setIsPlaying(true);
     const handlePauseEvent = () => setIsPlaying(false);
-    
+
     audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
     audioRef.current.addEventListener("play", handlePlayEvent);
     audioRef.current.addEventListener("pause", handlePauseEvent);
-    
+
     return () => {
       audioRef.current?.removeEventListener("timeupdate", handleTimeUpdate);
       audioRef.current?.removeEventListener("play", handlePlayEvent);
       audioRef.current?.removeEventListener("pause", handlePauseEvent);
     };
-  }, [currentAudio]); // Dependency updated to currentAudio for correct setup
+  }, [currentAudio]);
 
   // Update progress helper (using existing function body)
   const handleTimeUpdate = () => {
@@ -159,13 +152,12 @@ export default function Kalaam() {
 
 
   return (
-    <div className="bg-white min-h-screen py-16 px-4 sm:px-6 lg:px-12">
+    <div className="bg-brand-light-bg min-h-screen py-16 px-4 sm:px-6 lg:px-12">
       {/* Section Heading */}
       <div className="max-w-6xl mx-auto text-center mb-10">
-        <h3 className="text-3xl md:text-4xl font-extrabold text-emerald-800 relative inline-block">
+        <h3 className={`text-3xl md:text-4xl font-extrabold ${BRAND_DARK_TEXT} relative inline-block`}>
           حمد و نعت و کلام
-          {/* ❌ RTL Fix: start-1/2 */}
-          <span className="absolute -bottom-2 start-1/2 -translate-x-1/2 w-24 h-1 bg-yellow-400 rounded-full"></span>
+          <span className={`absolute -bottom-2 start-1/2 -translate-x-1/2 w-24 h-1 ${BRAND_ACCENT} rounded-full`}></span>
         </h3>
       </div>
 
@@ -180,11 +172,10 @@ export default function Kalaam() {
             whileTap={{ scale: 0.9 }}
             key={lang}
             onClick={() => setActiveLang(lang)}
-            className={`px-4 py-2 rounded-full text-sm md:text-base font-medium transition-all shadow ${
-              activeLang === lang
-                ? "bg-gradient-to-r from-emerald-600 to-green-700 text-white shadow-lg"
-                : "bg-white text-emerald-700 border border-emerald-600 hover:bg-emerald-50"
-            }`}
+            className={`px-4 py-2 rounded-full text-sm md:text-base font-medium transition-all shadow ${activeLang === lang
+              ? `${BRAND_ACCENT} text-white shadow-lg`
+              : `bg-white ${BRAND_ACCENT_TEXT} border border-brand-accent hover:bg-brand-subtle-hover`
+              }`}
           >
             {lang.toUpperCase()}
           </motion.button>
@@ -197,16 +188,14 @@ export default function Kalaam() {
           <input
             type="text"
             placeholder="🔍 تلاش کریں (عنوان یا مقرر)"
-            // ❌ RTL Fix: pl-10 (padding-left) -> pr-10 (padding-right/end)
-            className="w-full border rounded-lg py-2 px-4 pr-10 text-sm md:text-base shadow-sm focus:ring-emerald-600 focus:border-emerald-600"
+            className={`w-full border rounded-lg py-2 px-4 pr-10 text-sm md:text-base shadow-sm focus:ring-brand-accent focus:border-brand-accent`}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {/* ❌ RTL Fix: left-3 -> right-3 */}
           <Search className="absolute right-3 top-2.5 text-gray-400 w-5 h-5" />
         </div>
         <select
-          className="border rounded-lg py-2 px-3 text-sm md:text-base shadow-sm focus:ring-emerald-600 focus:border-emerald-600"
+          className={`border rounded-lg py-2 px-3 text-sm md:text-base shadow-sm focus:ring-brand-accent focus:border-brand-accent`}
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
@@ -218,7 +207,7 @@ export default function Kalaam() {
       {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto bg-white shadow-lg rounded-xl">
         <table className="w-full text-right border-collapse rounded-xl overflow-hidden">
-          <thead className="bg-gradient-to-r from-emerald-700 to-green-800 text-white text-sm md:text-base">
+          <thead className={`${BRAND_ACCENT} text-white text-sm md:text-base`}>
             <tr>
               <th className="p-3">نمبر</th>
               <th className="p-3">عنوان</th>
@@ -236,39 +225,31 @@ export default function Kalaam() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
-                className={`${
-                  idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                } border-b hover:bg-emerald-50 text-sm md:text-base`}
+                className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } border-b hover:bg-brand-subtle-hover/50 text-sm md:text-base`}
               >
                 <td className="p-3">{idx + 1}</td>
                 <td className="p-3 font-medium break-words">{b.title}</td>
                 <td className="p-3 text-gray-700">{b.scholar}</td>
                 <td className="p-3 text-gray-500">
                   {new Date(b.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
+                    year: "numeric", month: "short", day: "numeric",
                   })}
                 </td>
                 <td className="p-3">{b.duration}</td>
                 <td className="p-3">
                   <button
                     onClick={() => handlePlay(b)}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-2 rounded-md hover:from-blue-600 hover:to-blue-700 transition shadow"
+                    className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition shadow"
                   >
-                    {currentAudio?.id === b.id && isPlaying ? (
-                      <Pause size={16} />
-                    ) : (
-                      <Play size={16} />
-                    )}
+                    {currentAudio?.id === b.id && isPlaying ? (<Pause size={16} />) : (<Play size={16} />)}
                   </button>
                 </td>
-                {/* ❌ RTL Fix: Added justify-end */}
-                <td className="p-3 flex gap-2 justify-end"> 
-                  <button className="bg-gradient-to-r from-emerald-500 to-green-600 text-white p-2 rounded-md hover:from-emerald-600 hover:to-green-700 transition shadow">
+                <td className="p-3 flex gap-2 justify-end">
+                  <button className={`${BRAND_ACCENT} text-white p-2 rounded-md hover:bg-brand-primary-text transition shadow`}>
                     <Save size={16} />
                   </button>
-                  <button className="bg-gradient-to-r from-gray-500 to-gray-600 text-white p-2 rounded-md hover:from-gray-600 hover:to-gray-700 transition shadow">
+                  <button className="bg-gray-600 text-white p-2 rounded-md hover:bg-gray-700 transition shadow">
                     <Download size={16} />
                   </button>
                 </td>
@@ -286,7 +267,7 @@ export default function Kalaam() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: idx * 0.05 }}
-            className="bg-white p-4 rounded-xl shadow border-r-4 border-emerald-500"
+            className={`bg-white p-4 rounded-xl shadow border-r-4 border-brand-accent`}
           >
             <h4 className="font-semibold text-base break-words">{b.title}</h4>
             <p className="text-sm text-gray-700">{b.scholar}</p>
@@ -296,7 +277,7 @@ export default function Kalaam() {
             <div className="flex gap-2 mt-3">
               <button
                 onClick={() => handlePlay(b)}
-                className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 rounded-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center gap-1 shadow"
+                className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-1 shadow"
               >
                 {currentAudio?.id === b.id && isPlaying ? (
                   <>
@@ -308,10 +289,10 @@ export default function Kalaam() {
                   </>
                 )}
               </button>
-              <button className="bg-gradient-to-r from-emerald-500 to-green-600 text-white p-2 rounded-md hover:from-emerald-600 hover:to-green-700 transition shadow">
+              <button className={`${BRAND_ACCENT} text-white p-2 rounded-md hover:bg-brand-primary-text transition shadow`}>
                 <Save size={16} />
               </button>
-              <button className="bg-gradient-to-r from-gray-500 to-gray-600 text-white p-2 rounded-md hover:from-gray-600 hover:to-gray-700 transition shadow">
+              <button className="bg-gray-600 text-white p-2 rounded-md hover:bg-gray-700 transition shadow">
                 <Download size={16} />
               </button>
             </div>
@@ -322,14 +303,17 @@ export default function Kalaam() {
       {/* Floating Player */}
       <AnimatePresence>
         {currentAudio && (
+
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-3 start-1/2 transform -translate-x-1/2 bg-white/90 shadow-xl rounded-2xl px-4 py-3 flex items-center gap-3 w-[95%] sm:w-[80%] md:w-[600px] border border-emerald-200"
-          >
+              className="fixed inset-x-0 m-auto h-fit bottom-3 transform -translate-x-1/2 backdrop-blur-md 
+            bg-white/90 shadow-xl rounded-2xl px-4 py-3 flex items-center gap-3 
+            w-[95%] sm:w-[80%] md:w-[600px] border border-emerald-200"
+            >
             <div className="flex-1 min-w-0">
-              <h4 className="font-semibold text-sm md:text-base truncate">
+              <h4 className="font-semibold text-sm md:text-base truncate text-brand-primary-text">
                 {currentAudio.title}
               </h4>
               <p className="text-xs md:text-sm text-gray-500 truncate">
@@ -338,27 +322,30 @@ export default function Kalaam() {
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 h-1 mt-2 rounded-full overflow-hidden">
                 <div
-                  className="h-1 bg-gradient-to-r from-emerald-500 to-green-600"
+                  className={`${BRAND_ACCENT} h-1 transition-all duration-200`}
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
             </div>
+
             <button
               onClick={() => handlePlay(currentAudio)}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-2 md:p-3 rounded-full hover:from-blue-600 hover:to-blue-700 transition shadow"
+              className="bg-blue-600 text-white p-2 md:p-3 rounded-full hover:bg-blue-700 transition shadow"
             >
               {isPlaying ? <Pause size={18} /> : <Play size={18} />}
             </button>
+
             <button
               onClick={() => {
                 audioRef.current.pause();
                 setCurrentAudio(null);
                 setIsPlaying(false);
               }}
-              className="bg-gradient-to-r from-red-500 to-red-600 text-white p-2 md:p-3 rounded-full hover:from-red-600 hover:to-red-700 transition shadow"
+              className="bg-red-600 text-white p-2 md:p-3 rounded-full hover:bg-red-700 transition shadow"
             >
               <X size={18} />
             </button>
+
             <audio
               ref={audioRef}
               src={currentAudio.url}
@@ -368,6 +355,9 @@ export default function Kalaam() {
           </motion.div>
         )}
       </AnimatePresence>
+
+
+
     </div>
   );
 }
