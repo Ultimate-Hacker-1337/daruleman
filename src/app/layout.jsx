@@ -4,8 +4,7 @@ import Header from '../components/Header';
 import './globals.css';
 
 export const metadata = {
-  title: 'DoAll',
-  description: 'The simplest to do all.',
+  title: 'Dar ul Eman',
 };
 
 export default function RootLayout({

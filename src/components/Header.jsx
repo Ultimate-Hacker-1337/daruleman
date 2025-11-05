@@ -51,8 +51,8 @@ export default function Header() {
       title: "رابطہ",
       path: "/contact",
       sub: [
-        { title: "حلقات", path: "/raabta/halqaat" },
-        { title: "آپ کا حلقہ", path: "/raabta/your-halqa" },
+        { title: "حلقات", path: "/halqaat" },
+        { title: "آپ کا حلقہ", path: "/your-halqa" },
       ],
     },
   ];
