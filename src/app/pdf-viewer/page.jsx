@@ -1,0 +1,60 @@
+// app/pdf-viewer/page.jsx
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
+export default function PdfViewer() {
+  const searchParams = useSearchParams();
+  const book = searchParams.get("book") || "کتاب";
+  const price = searchParams.get("price") || "نامعلوم";
+
+  const pdfPath = "/assets/book.pdf";
+  const whatsappNumber = "+923001234567";
+
+  const BRAND_ACCENT_TEXT = 'text-brand-accent';
+  const BRAND_PRIMARY_TEXT = 'text-brand-primary-text';
+  const BRAND_BG = 'bg-brand-light-bg';
+  const BRAND_ACCENT = 'text-brand-accent';
+
+  return (
+    // ✅ Use h-screen and flex-col for full vertical control
+    <div className={`h-screen ${BRAND_BG} flex flex-col`}> 
+      
+      {/* Title (Header) - Reduced vertical padding for mobile efficiency */}
+      <h1 className={`text-center text-sm sm:text-base md:text-lg font-bold ${BRAND_ACCENT} p-2 border-b border-brand-subtle-hover`}>
+        {book}
+      </h1>
+
+      {/* PDF Viewer Area - Uses flex-1 to take up remaining height */}
+      <div className="flex-1 overflow-hidden p-1 sm:p-2"> 
+        {/* Max width set to 600px, centered horizontally */}
+        <div className={`max-w-[600px] mx-auto h-full`}>
+          <iframe
+            src={`${pdfPath}#toolbar=0&navpanes=0&scrollbar=1&view=fitH`}
+            // h-full ensures iframe fills parent div's height
+            className="w-full h-full border-0 rounded-lg shadow-xl" 
+            title={book}
+            allowFullScreen
+          />
+        </div>
+      </div>
+
+      {/* Bottom Buy Info (Footer) - Critical for mobile responsiveness */}
+      <div className="bg-white p-2 border-t border-brand-subtle-hover text-right text-xs sm:text-sm">
+        <p className="text-gray-700">صرف دیکھیں۔ ڈاؤن لوڈ نہیں۔</p>
+        <p className="text-gray-700">
+          خریدیں:{" "}
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 font-bold"
+          >
+            {whatsappNumber}
+          </a>
+        </p>
+        <p className={`font-bold ${BRAND_ACCENT}`}>قیمت: {price}</p>
+      </div>
+    </div>
+  );
+}
