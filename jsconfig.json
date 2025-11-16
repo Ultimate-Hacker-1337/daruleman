@@ -15,6 +15,6 @@
   "include": [
     "src/**/*", 
     "next-env.d.ts"
-  ],
+, "public/assets/books"  ],
   "exclude": ["node_modules"]
 }
