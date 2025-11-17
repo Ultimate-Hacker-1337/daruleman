@@ -50,7 +50,6 @@ function PdfViewerContent() {
           className="w-full h-[75vh] border-0"
           allowFullScreen
           loading="lazy"
-          // Allow scrolling inside iframe
           style={{ touchAction: "pan-y", pointerEvents: "auto" }}
         />
       </div>
