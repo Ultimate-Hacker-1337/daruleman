@@ -54,8 +54,6 @@ function PdfViewerContent() {
           style={{ touchAction: "pan-y", pointerEvents: "auto" }}
         />
       </div>
-
-      {/* Removed overlay – it was blocking scroll */}
     </div>
   );
 }
